@@ -8,22 +8,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFlowBundle\Common;
+namespace Asm\PhpFloBundle\Common;
 
 use Asm\Data\Data;
+use PhpFlo\ComponentInterface;
 
 /**
  * Class AbstractRegistry
  *
- * @package Asm\PhpFlowBundle\Common
+ * @package Asm\PhpFloBundle\Common
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-abstract class AbstractRegistry extends Data implements ManagerInterface
+abstract class AbstractRegistry extends Data
 {
     /**
      * @inheritdoc
      */
-    public function addReference(ReferenceInterface $reference, $alias, array $options = [])
+    public function addReference(ComponentInterface $reference, $alias, array $options = [])
     {
         $this->set(
             $alias,

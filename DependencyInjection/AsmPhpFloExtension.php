@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * Class AsmPhpFloExtension
  *
- * @package Asm\PhpFlowBundle\DependencyInjection
+ * @package Asm\PhpFloBundle\DependencyInjection
  * @author Marc Aschmann <maschmann@gmail.com>
  */
 class AsmPhpFloExtension extends Extension

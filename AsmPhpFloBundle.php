@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Class AsmPhpFloBundle
  *
- * @package Asm\PhpFlowBundle
+ * @package Asm\PhpFloBundle
  * @author Marc Aschmann <maschmann@gmail.com>
  */
 class AsmPhpFloBundle extends Bundle

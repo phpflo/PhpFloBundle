@@ -8,12 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFlowBundle\Common;
+namespace Asm\PhpFloBundle\Common;
+
+use PhpFlo\ComponentInterface;
 
 /**
  * Base interface for managers (registry pattern)
  *
- * @package Asm\PhpFlowBundle\Common
+ * @package Asm\PhpFloBundle\Common
  * @author Marc Aschmann <maschmann@gmail.com>
  */
 interface RegistryInterface
@@ -21,12 +23,12 @@ interface RegistryInterface
     /**
      * Add a reference to internal storage.
      *
-     * @param ReferenceInterface $reference
+     * @param ComponentInterface $reference
      * @param string $alias name of the reference
      * @param array $options additional options for the reference
      * @return $this
      */
-    public function addReference(ReferenceInterface $reference, $alias, array $options = []);
+    public function addReference(ComponentInterface $reference, $alias, array $options = []);
 
     /**
      * Remove reference from List
