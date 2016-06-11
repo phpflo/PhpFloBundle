@@ -1,0 +1,23 @@
+{
+    "name": "asm/phpflo-bundle",
+    "description": "Integrate phpflo into symfony",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/symfony": "3.1.*",
+        "phpflo/phpflo": "dev-master",
+        "asm/php-utilities": "^2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marc Aschmann",
+            "email": "maschmann@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Asm\\PhpFloBundle\\": ""
+        }
+    }
+}

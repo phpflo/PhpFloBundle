@@ -1,0 +1,13 @@
+parameters:
+
+services:
+  asm_phpflo:
+    class: Asm\PhpFloBundle\Flow\Builder
+    lazy: true
+    arguments:
+      - '%kernel.base_dir%'
+      - '@asm_phpflo.component_registry'
+
+  asm_phpflo.component_registry:
+    class: Asm\PhpFloBundle\Flow\ComponentRegistry
+    lazy: true
