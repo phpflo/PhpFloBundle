@@ -56,6 +56,7 @@ class Network implements NetworkInterface
      * Network constructor.
      *
      * @param Graph $graph
+     * @param RegistryInterface $registry
      */
     public function __construct(Graph $graph, RegistryInterface $registry)
     {

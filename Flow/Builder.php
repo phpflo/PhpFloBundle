@@ -13,9 +13,7 @@ namespace Asm\PhpFloBundle\Flow;
 use Asm\PhpFloBundle\Common\BuilderInterface;
 use Asm\PhpFloBundle\Common\NetworkInterface;
 use Asm\PhpFloBundle\Common\RegistryInterface;
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use PhpFlo\Graph;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Class Builder
@@ -52,7 +50,7 @@ class Builder implements BuilderInterface
      *
      * @param string $fileName
      * @return NetworkInterface
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function fromFile($fileName)
     {
@@ -61,7 +59,7 @@ class Builder implements BuilderInterface
         if (file_exists($fileUri)) {
             $graph = file_get_contents($fileUri);
         } else {
-            throw new InvalidArgumentException('Could not find file ' . $fileUri);
+            throw new \InvalidArgumentException('Could not find file ' . $fileUri);
         }
 
         return $this->fromString($graph);
