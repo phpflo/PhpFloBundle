@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the <package> package.
+ * This file is part of the asm\phpflo-bundle package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -13,7 +13,9 @@ namespace Asm\PhpFloBundle\Flow;
 use Asm\PhpFloBundle\Common\BuilderInterface;
 use Asm\PhpFloBundle\Common\NetworkInterface;
 use Asm\PhpFloBundle\Common\RegistryInterface;
+use Doctrine\DBAL\Exception\InvalidArgumentException;
 use PhpFlo\Graph;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class Builder
@@ -46,12 +48,23 @@ class Builder implements BuilderInterface
     }
 
     /**
+     * @Todo maybe find a cached solution for that?
+     *
      * @param string $fileName
      * @return NetworkInterface
+     * @throws InvalidArgumentException
      */
     public function fromFile($fileName)
     {
-        // TODO: Implement fromFile() method.
+        $fileUri = $this->root . '/' . ltrim($fileName, '/');
+
+        if (file_exists($fileUri)) {
+            $graph = file_get_contents($fileUri);
+        } else {
+            throw new InvalidArgumentException('Could not find file ' . $fileUri);
+        }
+
+        return $this->fromString($graph);
     }
 
     /**
@@ -60,7 +73,9 @@ class Builder implements BuilderInterface
      */
     public function fromString($graph)
     {
-        // TODO: Implement fromString() method.
+        $graph = Graph::loadString($graph);
+
+        return $this->fromGraph($graph);
     }
 
     /**
@@ -69,6 +84,6 @@ class Builder implements BuilderInterface
      */
     public function fromGraph(Graph $graph)
     {
-        // TODO: Implement fromGraph() method.
+        return Network::create($graph, $this->registry);
     }
 }

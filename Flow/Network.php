@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the <package> package.
+ * This file is part of the asm\phpflo-bundle package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -38,7 +38,7 @@ class Network implements NetworkInterface
     private $connections;
 
     /**
-     * @var null|Graph
+     * @var Graph
      */
     private $graph;
 

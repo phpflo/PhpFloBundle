@@ -5,8 +5,8 @@ services:
     class: Asm\PhpFloBundle\Flow\Builder
     lazy: true
     arguments:
-      - '%kernel.root_dir%'
       - '@asm_phpflo.component_registry'
+      - '%kernel.root_dir%'
 
   asm_phpflo.component_registry:
     class: Asm\PhpFloBundle\Flow\ComponentRegistry
