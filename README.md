@@ -4,6 +4,20 @@ This bundle is based on [Henri Bergius](https://github.com/bergie) library [phpf
 The intention for creating this bundle is an easier inclusion into e.g. symfony environments with the need for flow programming.
 I had to rewrite part of the initial Network class to make use of a component registry to easily manage components via DIC. Also all component services should be defined as "public: false" to not clutter the DIC.
 
+Installation
+----
+You can either just add via:
+```bash
+ $ composer.phar require asm/phpflo-bundle
+```
+**Attention:** This need minimum-stability: dev set on rootlevel
+Otherwise you can first add phpflo and then the bundle.
+```bash
+ $ composer.phar require phpflo/phpflo dev-master
+ $ composer.phar require asm/phpflo-bundle
+```
+This will first add phpflo with dev stability and the the bundle. This is due to composer's handling of stabilities for indirect dependencies.
+
 Configuration
 ----
 
