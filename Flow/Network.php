@@ -12,10 +12,12 @@ namespace Asm\PhpFloBundle\Flow;
 
 use Asm\PhpFloBundle\Common\NetworkInterface;
 use Asm\PhpFloBundle\Common\RegistryInterface;
-use PhpFlo\ComponentInterface;
+use PhpFlo\Common\ComponentInterface;
+use PhpFlo\Common\SocketInterface;
+use PhpFlo\Exception\IncompatibleDatatypeException;
+use PhpFlo\Exception\InvalidDefinitionException;
 use PhpFlo\Graph;
-use PhpFlo\InternalSocket;
-use PhpFlo\SocketInterface;
+use PhpFlo\Interaction\InternalSocket;
 
 /**
  * This is an adaption of PhpFlo\Network to be able to use a registry of components
@@ -83,7 +85,8 @@ class Network implements NetworkInterface
 
     /**
      * @param array $node
-     * @return $this
+     * @return $this|NetworkInterface
+     * @throws InvalidDefinitionException
      */
     public function addNode(array $node)
     {
@@ -98,11 +101,11 @@ class Network implements NetworkInterface
 
             $component = $this->registry->getReference($node['component']);
             if (false === $component) {
-                throw new \InvalidArgumentException("Component {$node['component']} not found");
+                throw new InvalidDefinitionException("Component {$node['component']} not found");
             }
 
             if (!$component instanceof ComponentInterface) {
-                throw new \InvalidArgumentException("Component {$node['component']} doesn't appear to be a valid PhpFlo component");
+                throw new InvalidDefinitionException("Component {$node['component']} doesn't appear to be a valid PhpFlo component");
             }
             $process['component'] = $component;
         }
@@ -149,7 +152,8 @@ class Network implements NetworkInterface
     /**
      * @param SocketInterface $socket
      * @param array $process
-     * @param string $port
+     * @param Port $port
+     * @throws InvalidDefinitionException
      * @return mixed
      */
     private function connectInboundPort(SocketInterface $socket, array $process, $port)
@@ -159,36 +163,20 @@ class Network implements NetworkInterface
             'port' => $port,
         ];
 
-        if (!isset($process['component']->inPorts[$port])) {
-            throw new \InvalidArgumentException("No inport {$port} defined for process {$process['id']}");
+        if (!$process['component']->inPorts()->has($port)) {
+            throw new InvalidDefinitionException("No inport {$port} defined for process {$process['id']}");
         }
 
-        return $process['component']->inPorts[$port]->attach($socket);
-    }
-
-    /**
-     * @param SocketInterface $socket
-     * @param array $process
-     * @param string $port
-     * @return mixed
-     */
-    private function connectOutgoingPort(SocketInterface $socket, array $process, $port)
-    {
-        $socket->from = [
-            'process' => $process,
-            'port' => $port,
-        ];
-
-        if (!isset($process['component']->outPorts[$port])) {
-            throw new \InvalidArgumentException("No outport {$port} defined for process {$process['id']}");
-        }
-
-        return $process['component']->outPorts[$port]->attach($socket);
+        return $process['component']
+            ->inPorts()
+            ->get($port)
+            ->attach($socket);
     }
 
     /**
      * @param array $edge
-     * @return $this|Network
+     * @return NetworkInterface|Network
+     * @throws InvalidDefinitionException
      */
     public function addEdge(array $edge)
     {
@@ -199,20 +187,65 @@ class Network implements NetworkInterface
 
         $from = $this->getNode($edge['from']['node']);
         if (!$from) {
-            throw new \InvalidArgumentException("No process defined for outbound node {$edge['from']['node']}");
+            throw new InvalidDefinitionException("No process defined for outbound node {$edge['from']['node']}");
         }
 
         $to = $this->getNode($edge['to']['node']);
         if (!$to) {
-            throw new \InvalidArgumentException("No process defined for inbound node {$edge['to']['node']}");
+            throw new InvalidDefinitionException("No process defined for inbound node {$edge['to']['node']}");
         }
 
-        $this->connectOutgoingPort($socket, $from, $edge['from']['port']);
-        $this->connectInboundPort($socket, $to, $edge['to']['port']);
+        $this->connectPorts($socket, $from, $to, $edge['from']['port'], $edge['to']['port']);
 
         $this->connections[] = $socket;
+    }
 
-        return $this;
+    /**
+     * Connect out to inport and compare data types.
+     *
+     * @param SocketInterface $socket
+     * @param array $from
+     * @param array $to
+     * @param string $edgeFrom
+     * @param string $edgeTo
+     * @throws IncompatibleDatatypeException
+     * @throws InvalidDefinitionException
+     */
+    private function connectPorts(SocketInterface $socket, array $from, array $to, $edgeFrom, $edgeTo)
+    {
+        $socket->from = [
+            'process' => $from,
+            'port' => $edgeFrom,
+        ];
+
+        if (!$from['component']->outPorts()->has($edgeFrom)) {
+            throw new InvalidDefinitionException("No outport {$edgeFrom} defined for process {$from['id']}");
+        }
+
+        $socket->to = [
+            'process' => $to,
+            'port' => $edgeTo,
+        ];
+
+        if (!$to['component']->inPorts()->has($edgeTo)) {
+            throw new InvalidDefinitionException("No inport {$edgeTo} defined for process {$to['id']}");
+        }
+
+        $fromType = $from['component']->outPorts()->get($edgeFrom)->getAttribute('datatype');
+        $toType = $to['component']->inPorts()->get($edgeTo)->getAttribute('datatype');
+
+        // compare out and in ports for datatype definitions
+        if (!$this->isPortCompatible($fromType, $toType)) {
+            throw new IncompatibleDatatypeException(
+                "Process {$from['id']}: outport type \"{$fromType}\" of port \"{$edgeFrom}\" ".
+                "does not match {$to['id']} inport type \"{$toType}\" of port \"{$edgeTo}\""
+            );
+        }
+
+        $from['component']->outPorts()->get($edgeFrom)->attach($socket);
+        $to['component']->inPorts()->get($edgeTo)->attach($socket);
+
+        return;
     }
 
     /**
@@ -223,13 +256,13 @@ class Network implements NetworkInterface
     {
         foreach ($this->connections as $index => $connection) {
             if ($edge['to']['node'] == $connection->to['process']['id'] && $edge['to']['port'] == $connection->to['process']['port']) {
-                $connection->to['process']['component']->inPorts[$edge['to']['port']]->detach($connection);
+                $connection->to['process']['component']->inPorts()->get($edge['to']['port'])->detach($connection);
                 $this->connections = array_splice($this->connections, $index, 1);
             }
 
             if (isset($edge['from']['node'])) {
                 if ($edge['from']['node'] == $connection->from['process']['id'] && $edge['from']['port'] == $connection->from['process']['port']) {
-                    $connection->from['process']['component']->inPorts[$edge['from']['port']]->detach($connection);
+                    $connection->from['process']['component']->inPorts()->get($edge['from']['port'])->detach($connection);
                     $this->connections = array_splice($this->connections, $index, 1);
                 }
             }
@@ -241,13 +274,14 @@ class Network implements NetworkInterface
     /**
      * @param array $initializer
      * @return $this
+     * @throws InvalidDefinitionException
      */
     public function addInitial(array $initializer)
     {
         $socket = new InternalSocket();
         $to = $this->getNode($initializer['to']['node']);
         if (!$to) {
-            throw new \InvalidArgumentException("No process defined for inbound node {$initializer['to']['node']}");
+            throw new InvalidDefinitionException("No process defined for inbound node {$initializer['to']['node']}");
         }
 
         $this->connectInboundPort($socket, $to, $initializer['to']['port']);
@@ -290,5 +324,28 @@ class Network implements NetworkInterface
     private function createDateTimeWithMilliseconds()
     {
         return \DateTime::createFromFormat('U.u', sprintf('%.6f', microtime(true)));
+    }
+
+    /**
+     * Compare in and outport datatypes.
+     *
+     * @param string $fromType
+     * @param string $toType
+     * @return bool
+     */
+    private function isPortCompatible($fromType, $toType)
+    {
+        switch(true) {
+            case (($fromType == $toType) || ($toType == 'all' || $toType == 'bang')):
+                $isCompatible = true;
+                break;
+            case (($fromType == 'int' || $fromType == 'integer') && $toType == 'number'):
+                $isCompatible = true;
+                break;
+            default:
+                $isCompatible = false;
+        }
+
+        return $isCompatible;
     }
 }

@@ -11,7 +11,7 @@
 namespace Asm\PhpFloBundle\Common;
 
 use Asm\Data\Data;
-use PhpFlo\ComponentInterface;
+use PhpFlo\Common\ComponentInterface;
 
 /**
  * Class AbstractRegistry

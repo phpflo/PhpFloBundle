@@ -4,7 +4,7 @@
     "type": "symfony-bundle",
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "~2.8 || ~3.0 || ~3.1",
+        "symfony/symfony": "^2.8 || ^3.0",
         "phpflo/phpflo": "dev-master",
         "asm/php-utilities": "^2.0"
     },
@@ -22,5 +22,11 @@
         "psr-4": {
             "Asm\\PhpFloBundle\\": ""
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/maschmann/phpflo"
+        }
+    ]
 }

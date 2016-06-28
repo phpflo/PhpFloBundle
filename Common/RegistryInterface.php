@@ -10,7 +10,7 @@
 
 namespace Asm\PhpFloBundle\Common;
 
-use PhpFlo\ComponentInterface;
+use PhpFlo\Common\ComponentInterface;
 
 /**
  * Base interface for managers (registry pattern)
