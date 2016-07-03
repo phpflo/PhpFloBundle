@@ -2,7 +2,7 @@ parameters:
 
 services:
   asm_phpflo:
-    class: Asm\PhpFloBundle\Flow\Builder
+    class: Asm\PhpFloBundle\Flow\NetworkBuilder
     lazy: true
     arguments:
       - '@asm_phpflo.component_registry'
