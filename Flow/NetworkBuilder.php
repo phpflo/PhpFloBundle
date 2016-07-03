@@ -23,7 +23,7 @@ use PhpFlo\Network;
  * @package Asm\PhpFloBundle\Flow
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class Builder implements BuilderInterface
+class NetworkBuilder implements BuilderInterface
 {
     /**
      * @var string
