@@ -44,7 +44,7 @@ class ComponentRegistryCompilerPass implements CompilerPassInterface
                 throw new \ErrorException('Please define an alias for ' . $id . ' service for mapping!');
             }
             $definition->addMethodCall(
-                'addReference',
+                'add',
                 array(
                     new Reference($id),
                     $attributes[0]['alias']

@@ -9,5 +9,5 @@ services:
       - '%kernel.root_dir%'
 
   asm_phpflo.component_registry:
-    class: Asm\PhpFloBundle\Flow\ComponentRegistry
+    class: PhpFlo\ComponentRegistry
     lazy: true

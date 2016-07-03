@@ -10,7 +10,7 @@
 
 namespace Tests\Flow;
 
-use Asm\PhpFloBundle\Flow\Network;
+use PhpFlo\Network;
 use PhpFlo\Graph;
 
 /**
@@ -25,18 +25,19 @@ class NetworkTest extends \PHPUnit_Framework_TestCase
     {
         // no interface for mocking available, constructor needs argument
         $graph = new Graph('test');//$this->getMockBuilder('\PhpFlo\Graph')->getMock();
-        $registry = $this->getMockBuilder('\Asm\PhpFloBundle\Common\RegistryInterface')->getMock();
+        //$registry = $this->getMockBuilder('\PhpFlo\Common\RegistryInterface')->getMock();
+        $builder = $this->getMockBuilder('\PhpFlo\Common\ComponentBuilderInterface')->getMock();
 
-        $network = Network::create($graph, $registry);
+        $network = Network::create($graph, $builder);
 
-        $this->assertInstanceOf('\Asm\PhpFloBundle\Flow\Network', $network);
+        $this->assertInstanceOf('\PhpFlo\Network', $network);
     }
 
     private function createNetwork()
     {
         $graph = $graph = new Graph('test');
-        $registry = $this->getMockBuilder('\Asm\PhpFloBundle\Common\RegistryInterface')->getMock();
+        $builder = $this->getMockBuilder('\PhpFlo\Common\ComponentBuilderInterface')->getMock();
 
-        $network = new Network($graph, $registry);
+        $network = new Network($graph, $builder);
     }
 }

@@ -11,9 +11,11 @@
 namespace Asm\PhpFloBundle\Flow;
 
 use Asm\PhpFloBundle\Common\BuilderInterface;
-use Asm\PhpFloBundle\Common\NetworkInterface;
-use Asm\PhpFloBundle\Common\RegistryInterface;
+use PhpFlo\Builder\ComponentDiFinder;
+use PhpFlo\Common\ComponentBuilderInterface;
+use PhpFlo\Common\ComponentRegistryInterface;
 use PhpFlo\Graph;
+use PhpFlo\Network;
 
 /**
  * Class Builder
@@ -29,19 +31,19 @@ class Builder implements BuilderInterface
     private $root;
 
     /**
-     * @var RegistryInterface
+     * @var ComponentBuilderInterface
      */
-    private $registry;
+    private $builder;
 
     /**
      * Builder constructor.
      *
-     * @param RegistryInterface $registry
+     * @param ComponentRegistryInterface $registry
      * @param string $rootDir
      */
-    public function __construct(RegistryInterface $registry, $rootDir)
+    public function __construct(ComponentRegistryInterface $registry, $rootDir)
     {
-        $this->registry = $registry;
+        $this->builder = new ComponentDiFinder($registry);
         $this->root = $rootDir . '/../app/config';
     }
 
@@ -49,7 +51,7 @@ class Builder implements BuilderInterface
      * @Todo maybe find a cached solution for that?
      *
      * @param string $fileName
-     * @return NetworkInterface
+     * @return Network
      * @throws \InvalidArgumentException
      */
     public function fromFile($fileName)
@@ -67,7 +69,7 @@ class Builder implements BuilderInterface
 
     /**
      * @param string $graph
-     * @return NetworkInterface
+     * @return Network
      */
     public function fromString($graph)
     {
@@ -78,10 +80,10 @@ class Builder implements BuilderInterface
 
     /**
      * @param Graph $graph
-     * @return NetworkInterface
+     * @return Network
      */
     public function fromGraph(Graph $graph)
     {
-        return Network::create($graph, $this->registry);
+        return Network::create($graph, $this->builder);
     }
 }
