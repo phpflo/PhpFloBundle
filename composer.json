@@ -5,7 +5,7 @@
     "require": {
         "php": ">=5.5.9",
         "symfony/symfony": "^2.8 || ^3.0",
-        "phpflo/phpflo": "dev-di_component_registry",
+        "phpflo/phpflo": "dev-master",
         "asm/php-utilities": "^2.0"
     },
     "require-dev": {
