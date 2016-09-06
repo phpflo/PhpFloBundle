@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the asm\phpflo-bundle package.
+ * This file is part of the phpflo\phpflo-bundle package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -30,14 +30,14 @@ class ComponentRegistryCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('asm_phpflo.component_registry')) {
+        if (!$container->hasDefinition('phpflo.component_registry')) {
             return;
         }
         $definition = $container->getDefinition(
-            'asm_phpflo.component_registry'
+            'phpflo.component_registry'
         );
         $taggedServices = $container->findTaggedServiceIds(
-            'asm_phpflo.component'
+            'phpflo.component'
         );
         foreach ($taggedServices as $id => $attributes) {
             if (!isset($attributes[0]['alias'])) {

@@ -72,7 +72,7 @@ services:
     public: false
     class: AppBundle\Component\ReadFile
     tags:
-      - {name: asm_phpflo.component, alias: read_file}
+      - {name: phpflo.component, alias: read_file}
 
 ```
 You can name the service whatever you want: The only two important things are the tags. It needs name "phpflo.component" to be found in compiler pass and the alias will be used as component name for the graph file.
