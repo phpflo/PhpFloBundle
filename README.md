@@ -48,11 +48,11 @@ class ReadFile extends Component
 {
     public function __construct()
     {
-        $this->inPorts['source'] = new Port();
-        $this->outPorts['out'] = new Port();
-        $this->outPorts['error'] = new Port();
+        $this->inPorts()->add('source', ['type' => 'string]);
+        $this->outPorts()->add('out', []);
+        $this->outPorts()->add('error', [];
 
-        $this->inPorts['source']->on('data', array($this, 'readFile'));
+        $this->inPorts()->source->on('data', [$this, 'readFile']);
     }
 
     public function readFile($data)
@@ -75,7 +75,7 @@ services:
       - {name: asm_phpflo.component, alias: read_file}
 
 ```
-You can name the service whatever you want: Only two important things are the tags. It needs name "asm_phpflo.component" to be found in compiler pass and the alias will be used as component name for the graph file.
+You can name the service whatever you want: The only two important things are the tags. It needs name "asm_phpflo.component" to be found in compiler pass and the alias will be used as component name for the graph file.
 
 **graph file** (app/config/my_graph.json)
 ```json

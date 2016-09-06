@@ -22,11 +22,5 @@
         "psr-4": {
             "Asm\\PhpFloBundle\\": ""
         }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/maschmann/phpflo"
-        }
-    ]
+    }
 }
