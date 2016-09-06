@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFloBundle\Flow;
+namespace PhpFlo\PhpFloBundle\Flow;
 
-use Asm\PhpFloBundle\Common\BuilderInterface;
+use PhpFlo\PhpFloBundle\Common\BuilderInterface;
 use PhpFlo\Builder\ComponentDiFinder;
 use PhpFlo\Common\ComponentBuilderInterface;
 use PhpFlo\Common\ComponentRegistryInterface;
@@ -20,7 +20,7 @@ use PhpFlo\Network;
 /**
  * Class Builder
  *
- * @package Asm\PhpFloBundle\Flow
+ * @package PhpFlo\PhpFloBundle\Flow
  * @author Marc Aschmann <maschmann@gmail.com>
  */
 class NetworkBuilder implements BuilderInterface

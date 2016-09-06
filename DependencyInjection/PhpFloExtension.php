@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFloBundle\DependencyInjection;
+namespace PhpFlo\PhpFloBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -16,12 +16,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
 /**
- * Class AsmPhpFloExtension
+ * Class PhpFloExtension
  *
- * @package Asm\PhpFloBundle\DependencyInjection
+ * @package PhpFlo\PhpFloBundle\DependencyInjection
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class AsmPhpFloExtension extends Extension
+class PhpFloExtension extends Extension
 {
     /**
      * Loads a specific configuration.

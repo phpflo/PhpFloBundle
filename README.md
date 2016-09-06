@@ -1,4 +1,4 @@
-AsmPhpFloBundle
+PhpFloBundle
 ==========
 This bundle is based on [Henri Bergius](https://github.com/bergie) library [phpflo](https://github.com/bergie/phpflo) whose README I really suggest to read :-)
 The intention for creating this bundle is an easier inclusion into e.g. symfony environments with the need for flow programming.
@@ -27,7 +27,7 @@ Configuration
     // ...
         $bundles = [
             // ...
-            new Asm\PhpFloBundle\AsmPhpFloBundle(),
+            new PhpFlo\PhpFloBundle\PhpFloBundle(),
         ];
     // ...
 ```
@@ -149,7 +149,7 @@ Within a symfony controller with access to the DIC, you can simply create a grap
 
 ```php
 <?php
-    /** @var \Asm\PhpFloBundle\Flow\Builder $builder */
+    /** @var \PhpFlo\PhpFloBundle\Flow\Builder $builder */
     $network = $this->get('asm_phpflo')
         ->fromFile('my_graph.json');
 
@@ -161,5 +161,5 @@ Within a symfony controller with access to the DIC, you can simply create a grap
 
 License
 ----
-AsmPhpFloBundle is licensed under the MIT license. See the [LICENSE](Resources/meta/LICENSE) for the full license text.
+PhpFloBundle is licensed under the MIT license. See the [LICENSE](Resources/meta/LICENSE) for the full license text.
 **Free Software, Hell Yeah!**

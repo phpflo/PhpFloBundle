@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFloBundle\DependencyInjection\Compiler;
+namespace PhpFlo\PhpFloBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class ComponentRegistryCompilerPass
  *
- * @package Asm\PhpFloBundle\DependencyInjection\Compiler
+ * @package PhpFlo\PhpFloBundle\DependencyInjection\Compiler
  * @author Marc Aschmann <maschmann@gmail.com>
  */
 class ComponentRegistryCompilerPass implements CompilerPassInterface

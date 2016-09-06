@@ -1,5 +1,5 @@
 {
-    "name": "asm/phpflo-bundle",
+    "name": "phpflo/phpflo-bundle",
     "description": "Integrate phpflo into symfony",
     "type": "symfony-bundle",
     "require": {
@@ -20,7 +20,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Asm\\PhpFloBundle\\": ""
+            "PhpFlo\\PhpFloBundle\\": ""
         }
     }
 }

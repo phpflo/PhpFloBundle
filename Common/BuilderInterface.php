@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFloBundle\Common;
+namespace PhpFlo\PhpFloBundle\Common;
 
 use PhpFlo\Graph;
 
 /**
  * Interface BuilderInterface
  *
- * @package Asm\PhpFloBundle\Common
+ * @package PhpFlo\PhpFloBundle\Common
  * @author Marc Aschmann <maschmann@gmail.com>
  */
 interface BuilderInterface

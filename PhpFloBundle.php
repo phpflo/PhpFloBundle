@@ -8,20 +8,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Asm\PhpFloBundle;
+namespace PhpFlo\PhpFloBundle;
 
-use Asm\PhpFloBundle\DependencyInjection\Compiler\ComponentRegistryCompilerPass;
+use PhpFlo\PhpFloBundle\DependencyInjection\Compiler\ComponentRegistryCompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 
 /**
- * Class AsmPhpFloBundle
+ * Class PhpFloBundle
  *
- * @package Asm\PhpFloBundle
+ * @package PhpFlo\PhpFloBundle
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class AsmPhpFloBundle extends Bundle
+class PhpFloBundle extends Bundle
 {
     /**
      * @param ContainerBuilder $container
