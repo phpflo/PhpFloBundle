@@ -8,13 +8,13 @@ Installation
 ----
 You can either just add via:
 ```bash
- $ composer.phar require asm/phpflo-bundle
+ $ composer.phar require phpflo/phpflo-bundle
 ```
 **Attention:** This need minimum-stability: dev set on rootlevel
 Otherwise you can first add phpflo and then the bundle.
 ```bash
  $ composer.phar require phpflo/phpflo dev-master
- $ composer.phar require asm/phpflo-bundle
+ $ composer.phar require phpflo/phpflo-bundle
 ```
 This will first add phpflo with dev stability and the the bundle. This is due to composer's handling of stabilities for indirect dependencies.
 
@@ -31,7 +31,7 @@ Configuration
         ];
     // ...
 ```
-After adding the bundle, you have a new factory service **asm_phpflo** which uses a registry of all your accordingly tagged services.
+After adding the bundle, you have a new factory service **phpflo** which uses a registry of all your accordingly tagged services.
 You can add components using following steps:
 
 **Component class**
@@ -75,7 +75,7 @@ services:
       - {name: asm_phpflo.component, alias: read_file}
 
 ```
-You can name the service whatever you want: The only two important things are the tags. It needs name "asm_phpflo.component" to be found in compiler pass and the alias will be used as component name for the graph file.
+You can name the service whatever you want: The only two important things are the tags. It needs name "phpflo.component" to be found in compiler pass and the alias will be used as component name for the graph file.
 
 **graph file** (app/config/my_graph.json)
 ```json
@@ -150,7 +150,7 @@ Within a symfony controller with access to the DIC, you can simply create a grap
 ```php
 <?php
     /** @var \PhpFlo\PhpFloBundle\Flow\Builder $builder */
-    $network = $this->get('asm_phpflo')
+    $network = $this->get('phpflo')
         ->fromFile('my_graph.json');
 
     $network->getGraph()
