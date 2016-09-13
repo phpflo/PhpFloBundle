@@ -31,7 +31,10 @@ Configuration
         ];
     // ...
 ```
-After adding the bundle, you have a new factory service **phpflo** which uses a registry of all your accordingly tagged services.
+After adding the bundle, you have a new factory service **phpflo.network** which uses a registry of all your accordingly tagged services.
+Another possibility is to use **phpflo.network_di** service.
+The difference between these services is: network uses a registry and components are registered **only once** and collected during compile time. This is useful when using the network within on request cycle and build it only once.
+If you are working e.g. with a long running process, you should us the network_di where every component will be fetched as a fresh object from DIC for every network build.
 You can add components using following steps:
 
 **Component class**
@@ -61,9 +64,9 @@ class ReadFile extends Component
     }
 }
 ```
-Keep in mind to exend the PhpFlo\Component or implement PhpFlo\ComponentInterface!
+Keep in mind to extend the PhpFlo\Component or implement PhpFlo\ComponentInterface!
 
-**service definition**
+**service definition (phpflo.network)**
 ```yaml
 # app/config/services.yml
 
@@ -76,6 +79,21 @@ services:
 
 ```
 You can name the service whatever you want: The only two important things are the tags. It needs name "phpflo.component" to be found in compiler pass and the alias will be used as component name for the graph file.
+
+**service definition (phpflo.network_di)**
+
+```yaml
+# app/config/services.yml
+
+services:
+  app.read_file:
+    lazy: true
+    shared: false # force instantiation 
+    class: AppBundle\Component\ReadFile
+    tags: # optional
+      - {name: phpflo.component, alias: read_file}
+
+```
 
 **graph file** (app/config/my_graph.json)
 ```json
@@ -142,6 +160,29 @@ You can name the service whatever you want: The only two important things are th
 }
 ```
 The builder will automatically search for the provided graph file in '''app/config''' - if you need subdirectories, you can provide the filename in the formate '''subdir/graph.json'''
+
+**processes definition (network_di)**
+```json
+{
+  ...
+  "processes": {
+    "ReadFile": {
+      "component": "app.read_file"
+    },
+    "SplitbyLines": {
+      "component": "split_str"
+    },
+    "CountLines": {
+      "component": "counter"
+    },
+    "Display": {
+      "component": "output"
+    }
+  },
+  ...
+}
+```
+Add the service name as component name! 
 
 Example
 ----

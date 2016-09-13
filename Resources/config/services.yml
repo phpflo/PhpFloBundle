@@ -1,7 +1,14 @@
 parameters:
 
 services:
-  phpflo:
+  phpflo.network_di:
+    class: PhpFlo\PhpFloBundle\Flow\DiNetworkBuilder
+    lazy: true
+    arguments:
+      - '@service_container' # not nice, but necessary
+      - '%kernel.root_dir%'
+
+  phpflo.network:
     class: PhpFlo\PhpFloBundle\Flow\NetworkBuilder
     lazy: true
     arguments:
