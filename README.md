@@ -1,5 +1,7 @@
 PhpFloBundle
 ==========
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+
 This bundle is based on [Henri Bergius](https://github.com/bergie) library [phpflo](https://github.com/bergie/phpflo) whose README I really suggest to read :-)
 The intention for creating this bundle is an easier inclusion into e.g. symfony environments with the need for flow programming.
 I had to rewrite part of the initial Network class to make use of a component registry to easily manage components via DIC. Also all component services should be defined as "public: false" to not clutter the DIC.
