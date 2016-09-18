@@ -35,7 +35,7 @@ class DiNetworkBuilder extends AbstractNetworkBuilder implements BuilderInterfac
     /**
      * Builder constructor.
      *
-     * @param ComponentRegistryInterface $registry
+     * @param ContainerInterface $container
      * @param string $rootDir
      */
     public function __construct(ContainerInterface $container, $rootDir)
