@@ -8,10 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Flow;
+namespace PhpFlo\PhpFloBundle\Tests\Flow;
 
 use PhpFlo\Network;
 use PhpFlo\Graph;
+use PhpFlo\PhpFloBundle\Test\FlowTestCase;
 
 /**
  * Class NetworkTest
@@ -19,25 +20,17 @@ use PhpFlo\Graph;
  * @package Tests\Flow
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class NetworkTest extends \PHPUnit_Framework_TestCase
+class NetworkTest extends FlowTestCase
 {
     public function testCreate()
     {
-        // no interface for mocking available, constructor needs argument
-        $graph = new Graph('test');//$this->getMockBuilder('\PhpFlo\Graph')->getMock();
-        //$registry = $this->getMockBuilder('\PhpFlo\Common\RegistryInterface')->getMock();
-        $builder = $this->getMockBuilder('\PhpFlo\Common\ComponentBuilderInterface')->getMock();
-
+        $graph = $this->stub('\PhpFlo\Graph');
+        $graph->nodes = [];
+        $graph->edges = [];
+        $graph->initializers = [];
+        $builder = $this->stub('\PhpFlo\Common\ComponentBuilderInterface');
         $network = Network::create($graph, $builder);
 
         $this->assertInstanceOf('\PhpFlo\Network', $network);
-    }
-
-    private function createNetwork()
-    {
-        $graph = $graph = new Graph('test');
-        $builder = $this->getMockBuilder('\PhpFlo\Common\ComponentBuilderInterface')->getMock();
-
-        $network = new Network($graph, $builder);
     }
 }

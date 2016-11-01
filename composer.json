@@ -1,26 +1,27 @@
 {
-    "name": "phpflo/phpflo-bundle",
-    "description": "Integrate phpflo into symfony",
-    "type": "symfony-bundle",
-    "require": {
-        "php": ">=5.5.9",
-        "symfony/symfony": "^2.8 || ^3.0",
-        "phpflo/phpflo": "dev-master#48b1046bbd7c155d33fd24823b787a5420947054",
-        "asm/php-utilities": "^2.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.4"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Marc Aschmann",
-            "email": "maschmann@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "PhpFlo\\PhpFloBundle\\": ""
-        }
+  "name": "phpflo/phpflo-bundle",
+  "description": "Integrate phpflo into symfony",
+  "type": "symfony-bundle",
+  "require": {
+    "php": ">=5.5.9",
+    "symfony/symfony": "^2.8 || ^3.0",
+    "phpflo/phpflo": "^1.0",
+    "asm/php-utilities": "^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.4",
+    "mikey179/vfsStream": "~1.0"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marc Aschmann",
+      "email": "maschmann@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PhpFlo\\PhpFloBundle\\": ""
+    }
+  }
 }
