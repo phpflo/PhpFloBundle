@@ -9,7 +9,7 @@
     "asm/php-utilities": "^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.4",
+    "phpunit/phpunit": "<5.0",
     "mikey179/vfsStream": "~1.0"
   },
   "license": "MIT",
@@ -19,6 +19,9 @@
       "email": "maschmann@gmail.com"
     }
   ],
+  "config": {
+    "bin-dir": "bin"
+  },
   "autoload": {
     "psr-4": {
       "PhpFlo\\PhpFloBundle\\": ""

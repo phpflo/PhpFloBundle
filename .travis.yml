@@ -1,0 +1,37 @@
+sudo: false
+
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+env:
+  global:
+    - COMPOSER_OPTIONS="--prefer-stable"
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.5
+    - php: 5.6
+      env: SYMFONY_VERSION="2.7.x"
+    - php: 5.6
+      env: SYMFONY_VERSION="2.8.x"
+    - php: 5.6
+      env: SYMFONY_VERSION="3.1.x"
+    - php: 7.0
+      env: COMPOSER_OPTIONS=""
+    - php: hhvm
+
+before_install:
+  - if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then INI_FILE=/etc/hhvm/php.ini; else INI_FILE=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
+  - echo memory_limit = -1 >> $INI_FILE
+  - if [ "$COVERAGE" != "yes" -a "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini; fi
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi
+
+install:
+  - composer update $COMPOSER_OPTIONS
+
+script:
+  - vendor/bin/phpunit
