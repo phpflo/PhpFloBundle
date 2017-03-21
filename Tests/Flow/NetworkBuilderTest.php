@@ -9,44 +9,43 @@
  */
 namespace PhpFlo\PhpFloBundle\Tests\Flow;
 
+use PhpFlo\Common\NetworkInterface;
+use PhpFlo\Component;
+use PhpFlo\Graph;
+use PhpFlo\PhpFloBundle\Common\BuilderInterface;
 use PhpFlo\PhpFloBundle\Flow\NetworkBuilder;
 use PhpFlo\PhpFloBundle\Test\FlowTestCase;
 use org\bovigo\vfs\vfsStream;
 
+/**
+ * Class NetworkBuilderTest
+ *
+ * @package PhpFlo\PhpFloBundle\Tests\Flow
+ * @author Marc Aschmann <maschmann@gmail.com>
+ */
 class NetworkBuilderTest extends FlowTestCase
 {
-    private $file;
-
-    private $defaultFlow = <<< EOF
-ReadFile(ReadFile) out -> in SplitbyLines(SplitStr)
-ReadFile(ReadFile) error -> in Display(Output)
-SplitbyLines(SplitStr) out -> in CountLines(Counter)
-CountLines(Counter) count -> in Display(Output)
-EOF;
-
-
-    public function testInstance()
+    public function testBasicFunctionality()
     {
-        $registry = $this->stub('PhpFlo\Common\ComponentRegistryInterface');
-        $networkBuilder = new NetworkBuilder($registry, '/');
+        $network = $this->stub(NetworkInterface::class);
+        $network->expects($this->any())->method('boot')->willReturn($network);
+        $network->expects($this->any())->method('run')->willReturn($network);
+        $network->expects($this->any())->method('shutdown')->willReturn($network);
+        $network->expects($this->any())->method('hook')->willReturn($network);
+        $network->expects($this->any())->method('getGraph')->willReturn(
+            $this->stub(Graph::class)
+        );
 
-        $this->assertInstanceOf('PhpFlo\PhpFloBundle\Flow\NetworkBuilder', $networkBuilder);
-    }
+        $networkBuilder = new NetworkBuilder($network);
+        $this->assertInstanceOf(BuilderInterface::class, $networkBuilder);
+        $network = $networkBuilder->boot('flow/default_flow.fbp');
+        $this->assertInstanceOf(NetworkInterface::class, $network);
 
-    public function testLoadConfigs()
-    {
-        $registry = $this->stub('PhpFlo\Common\ComponentRegistryInterface');
-        $file = $this->createFile('app/config/flow/default_flow.fbp', $this->defaultFlow);
-        $networkBuilder = new NetworkBuilder($registry, 'vfs://root/test');
+        $network = $networkBuilder->hook('test', 'yadda', function(){});
+        $network = $networkBuilder->run('some_data', 'someNode', 'somePort');
+        $network = $networkBuilder->shutdown();
 
-    }
-
-    private function createFile($name, $content)
-    {
-        $root = vfsStream::setup();
-        $this->file = vfsStream::newFile($name)->at($root);
-        $this->file->setContent($content);
-
-        return $this->file->url();
+        $graph = $network->getGraph();
+        $this->assertInstanceOf(Graph::class, $graph);
     }
 }

@@ -10,6 +10,10 @@
 
 namespace PhpFlo\PhpFloBundle\Common;
 
+use PhpFlo\Common\NetworkInterface;
+use PhpFlo\Exception\FlowException;
+use PhpFlo\Exception\InvalidDefinitionException;
+use PhpFlo\Exception\InvalidTypeException;
 use PhpFlo\Graph;
 
 /**
@@ -20,21 +24,47 @@ use PhpFlo\Graph;
  */
 interface BuilderInterface
 {
-    /**
-     * @param string $fileName
-     * @return NetworkInterface
-     */
-    public function fromFile($fileName);
 
     /**
-     * @param string $graph
+     * Add a flow definition as Graph object or definition file/string
+     * and initialize the network processes/connections
+     *
+     * @param mixed $graph
      * @return NetworkInterface
+     * @throws InvalidDefinitionException
      */
-    public function fromString($graph);
+    public function boot($graph);
 
     /**
-     * @param Graph $graph
+     * Add initialization data
+     *
+     * @param mixed $data
+     * @param string $node
+     * @param string $port
+     * @return NetworkInterface
+     * @throws FlowException
+     */
+    public function run($data, $node, $port);
+
+    /**
+     * Cleanup network state after runs.
+     *
+     * @return $this
+     */
+    public function shutdown();
+
+    /**
+     * Add a closure to an event
+     *
+     * Accepted events are connect, disconnect and data
+     * Closures will be given the
+     *
+     * @param string $event
+     * @param string $alias
+     * @param \Closure $closure
+     * @throws FlowException
+     * @throws InvalidTypeException
      * @return NetworkInterface
      */
-    public function fromGraph(Graph $graph);
+    public function hook($event, $alias, \Closure $closure);
 }

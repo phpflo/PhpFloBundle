@@ -1,20 +1,8 @@
 parameters:
+  phpflo_bundle.builder_class: 'PhpFlo\PhpFloBundle\Flow\NetworkBuilder'
+  phpflo_bundle.component.builder_class: 'PhpFlo\Builder\ComponentDiFinder'
+  phpflo_bundle.network_class: 'PhpFlo\Network'
+  phpflo_bundle.traceable_network_class: 'PhpFlo\TraceableNetwork'
+  phpflo_bundle.default_logger_class: 'PhpFlo\Logger\SimpleFile'
 
 services:
-  phpflo.network_di:
-    class: PhpFlo\PhpFloBundle\Flow\DiNetworkBuilder
-    lazy: true
-    arguments:
-      - '@service_container' # not nice, but necessary
-      - '%kernel.root_dir%'
-
-  phpflo.network:
-    class: PhpFlo\PhpFloBundle\Flow\NetworkBuilder
-    lazy: true
-    arguments:
-      - '@phpflo.component_registry'
-      - '%kernel.root_dir%'
-
-  phpflo.component_registry:
-    class: PhpFlo\ComponentRegistry
-    lazy: true
