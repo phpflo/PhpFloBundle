@@ -37,11 +37,11 @@ class PhpFloExtension extends Extension
         );
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('phpflo_bundle.log_dir', $config['logging']['log_dir']);
-        $container->setParameter('phpflo_bundle.configuration_dir', $config['config']['config_directory']);
+        $container->setParameter('phpflo_bundle.log_dir', $config['logging']['directory']);
+        $container->setParameter('phpflo_bundle.configuration_dir', $config['config']['directory']);
 
-        if (isset($config['logging']['enable_logger']) && true === $config['logging']['enable_logger']) {
-            if (empty($config['logging']['logger_service'])) {
+        if (isset($config['logging']['enabled']) && true === $config['logging']['enabled']) {
+            if (empty($config['logging']['service'])) {
                 // use default logger service, if not exists, create
                 if (!$container->hasDefinition('phpflo.flowtrace.default_logger')) {
                     $loggerClass = $container->getParameter('phpflo_bundle.default_logger_class');
@@ -52,8 +52,8 @@ class PhpFloExtension extends Extension
                             new Definition(
                                 $loggerClass,
                                 [
-                                    $config['logging']['log_dir'] . DIRECTORY_SEPARATOR . $config['logging']['log_name'],
-                                    $config['logging']['log_level']
+                                    $config['logging']['directory'] . DIRECTORY_SEPARATOR . $config['logging']['name'],
+                                    $config['logging']['level']
                                 ]
                             )
                         );
@@ -88,7 +88,7 @@ class PhpFloExtension extends Extension
                     $container->getParameter('phpflo_bundle.component.builder_class'),
                     [
                         new Reference('service_container'),
-                        $config['config']['config_directory']
+                        $config['config']['directory']
                     ]
                 )
             );
@@ -118,18 +118,5 @@ class PhpFloExtension extends Extension
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.yml');
-    }
-
-    /**
-     * @param array $config
-     * @param ContainerBuilder $container
-     * @return Configuration
-     */
-    public function getConfiguration(array $config, ContainerBuilder $container)
-    {
-        return new Configuration(
-            $container->getParameter('kernel.root_dir'),
-            $container->getParameter('kernel.logs_dir')
-        );
     }
 }

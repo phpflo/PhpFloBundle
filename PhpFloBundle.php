@@ -7,13 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace PhpFlo\PhpFloBundle;
 
 use PhpFlo\PhpFloBundle\DependencyInjection\Compiler\ComponentRegistryCompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 
 /**
  * Class PhpFloBundle
