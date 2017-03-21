@@ -35,7 +35,14 @@ class PhpFloExtension extends Extension
             $container->getParameter('kernel.root_dir'),
             $container->getParameter('kernel.logs_dir')
         );
+
         $config = $this->processConfiguration($configuration, $configs);
+
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config')
+        );
+        $loader->load('services.yml');
 
         $container->setParameter('phpflo_bundle.log_dir', $config['logging']['directory']);
         $container->setParameter('phpflo_bundle.configuration_dir', $config['config']['directory']);
@@ -53,13 +60,13 @@ class PhpFloExtension extends Extension
                                 $loggerClass,
                                 [
                                     $config['logging']['directory'] . DIRECTORY_SEPARATOR . $config['logging']['name'],
-                                    $config['logging']['level']
+                                    $config['logging']['level'],
                                 ]
                             )
                         );
                     } else {
                         throw new InvalidArgumentException(
-                            "The class {$loggerClass} does not exist, please install flowtrace dependency!"
+                            "The class {$loggerClass} does not exist, require phpflo/flowtrace dependency!"
                         );
                     }
                 }
@@ -112,11 +119,5 @@ class PhpFloExtension extends Extension
                 )
             );
         }
-
-        $loader = new Loader\YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__.'/../Resources/config')
-        );
-        $loader->load('services.yml');
     }
 }

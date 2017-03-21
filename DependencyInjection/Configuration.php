@@ -52,13 +52,13 @@ class Configuration implements ConfigurationInterface
     {
         $defaultConfigDir = $this->rootDir . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'phpflo';
         /** @var \Symfony\Component\Config\Definition\Builder\TreeBuilder $treeBuilder */
-
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('phpflo_bundle');
+        $rootNode = $treeBuilder->root('php_flo');
 
         $rootNode
             ->children()
                 ->arrayNode('config')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('directory')
                             ->defaultValue($defaultConfigDir)
@@ -67,6 +67,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('logging')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')
                             ->info('Enables flowtrace logger.')
