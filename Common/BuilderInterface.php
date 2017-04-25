@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace PhpFlo\PhpFloBundle\Common;
 
@@ -33,7 +34,7 @@ interface BuilderInterface
      * @return NetworkInterface
      * @throws InvalidDefinitionException
      */
-    public function boot($graph);
+    public function boot($graph) : NetworkInterface;
 
     /**
      * Add initialization data
@@ -44,14 +45,14 @@ interface BuilderInterface
      * @return NetworkInterface
      * @throws FlowException
      */
-    public function run($data, $node, $port);
+    public function run($data, string $node, string $port) : NetworkInterface;
 
     /**
      * Cleanup network state after runs.
      *
-     * @return $this
+     * @return NetworkInterface
      */
-    public function shutdown();
+    public function shutdown() : NetworkInterface;
 
     /**
      * Add a closure to an event
@@ -66,5 +67,5 @@ interface BuilderInterface
      * @throws InvalidTypeException
      * @return NetworkInterface
      */
-    public function hook($event, $alias, \Closure $closure);
+    public function hook(string $event, string $alias, \Closure $closure);
 }

@@ -3,12 +3,12 @@
   "description": "Integrate phpflo into symfony",
   "type": "symfony-bundle",
   "require": {
-    "php": ">=5.5.9",
+    "php": ">=7.0.0",
     "symfony/symfony": "^2.8 || ^3.0",
-    "phpflo/phpflo": "^1.0"
+    "phpflo/phpflo": "dev-mono_transition"
   },
   "require-dev": {
-    "phpunit/phpunit": "<5.0",
+    "phpunit/phpunit": "^5.0",
     "mikey179/vfsStream": "~1.0"
   },
   "license": "MIT",

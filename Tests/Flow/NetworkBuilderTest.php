@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the <package> package.
+ * This file is part of the phpflo/phpflo-bundle package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -10,11 +10,10 @@
 namespace PhpFlo\PhpFloBundle\Tests\Flow;
 
 use PhpFlo\Common\NetworkInterface;
-use PhpFlo\Component;
-use PhpFlo\Graph;
+use PhpFlo\Core\Graph;
 use PhpFlo\PhpFloBundle\Common\BuilderInterface;
 use PhpFlo\PhpFloBundle\Flow\NetworkBuilder;
-use PhpFlo\PhpFloBundle\Test\FlowTestCase;
+use PhpFlo\PhpFloBundle\Test\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -23,7 +22,7 @@ use org\bovigo\vfs\vfsStream;
  * @package PhpFlo\PhpFloBundle\Tests\Flow
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class NetworkBuilderTest extends FlowTestCase
+class NetworkBuilderTest extends TestCase
 {
     public function testBasicFunctionality()
     {
@@ -41,7 +40,13 @@ class NetworkBuilderTest extends FlowTestCase
         $network = $networkBuilder->boot('flow/default_flow.fbp');
         $this->assertInstanceOf(NetworkInterface::class, $network);
 
-        $network = $networkBuilder->hook('test', 'yadda', function(){});
+        $network = $networkBuilder->hook(
+            'test',
+            'yadda',
+            function () {
+                return null;
+            }
+        );
         $network = $networkBuilder->run('some_data', 'someNode', 'somePort');
         $network = $networkBuilder->shutdown();
 

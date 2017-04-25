@@ -7,15 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace PhpFlo\PhpFloBundle\Flow;
 
 use PhpFlo\Common\NetworkInterface;
-use PhpFlo\Exception\FlowException;
-use PhpFlo\Exception\InvalidDefinitionException;
-use PhpFlo\Exception\InvalidTypeException;
-use PhpFlo\Graph;
-use PhpFlo\Network;
+use PhpFlo\Common\Exception\FlowException;
+use PhpFlo\Common\Exception\InvalidDefinitionException;
+use PhpFlo\Common\Exception\InvalidTypeException;
+use PhpFlo\Core\Graph;
+use PhpFlo\Core\Network;
 use PhpFlo\PhpFloBundle\Common\BuilderInterface;
 use PhpFlo\Common\ComponentBuilderInterface;
 
@@ -48,7 +49,7 @@ class NetworkBuilder implements BuilderInterface
      * @return NetworkInterface
      * @throws InvalidDefinitionException
      */
-    public function boot($graph)
+    public function boot($graph) : NetworkInterface
     {
         return $this->network->boot($graph);
     }
@@ -62,7 +63,7 @@ class NetworkBuilder implements BuilderInterface
      * @return NetworkInterface
      * @throws FlowException
      */
-    public function run($data, $node, $port)
+    public function run($data, string $node, string $port) : NetworkInterface
     {
         return $this->network->run($data, $node, $port);
     }
@@ -72,7 +73,7 @@ class NetworkBuilder implements BuilderInterface
      *
      * @return NetworkInterface
      */
-    public function shutdown()
+    public function shutdown() : NetworkInterface
     {
         return $this->network->shutdown();
     }
@@ -90,7 +91,7 @@ class NetworkBuilder implements BuilderInterface
      * @throws InvalidTypeException
      * @return NetworkInterface
      */
-    public function hook($event, $alias, \Closure $closure)
+    public function hook(string $event, string $alias, \Closure $closure)
     {
         return $this->network->hook($event, $alias, $closure);
     }
